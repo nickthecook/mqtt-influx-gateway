@@ -1,0 +1,12 @@
+version: "3"
+services:
+  telegraf:
+    image: 'telegraf'
+    hostname: 'mig-dev'
+    volumes:
+      - './telegraf.conf:/etc/telegraf/telegraf.conf:ro'
+    ports:
+      - 8125:8125
+    environment:
+      - INFLUXDB_URL=${INFLUXDB_URL}
+      - INFLUXDB_TOKEN=${INFLUXDB_TOKEN}

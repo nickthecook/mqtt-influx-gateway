@@ -1,0 +1,32 @@
+mqtt:
+  client_id: mig_0
+  client:
+    omit_retained: true
+  host: mqtt
+  port: 1883
+  ssl: false
+  ca_cert:
+  topics:
+    sub:
+      - "#"
+    boot: "/home/boot"
+    lwt: "/home/lwt"
+    log: "/home/log/mig_0"
+    ping: "/home/ping"
+    pong: "/home/pong"
+  qos: 2
+  retain: 0
+  keepalive: 15
+mig:
+  telegraf:
+    host: localhost
+  metric: mqtt.messages
+log:
+  -
+    level: info
+    path: STDOUT
+  -
+    level: info
+    path: log/mig.log
+    size: 52428800
+    count: 5

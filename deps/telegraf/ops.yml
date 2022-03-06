@@ -1,0 +1,30 @@
+dependencies:
+  custom:
+    - docker-compose pull
+actions:
+  start:
+    command: docker-compose up -d
+    load_secrets: true
+  stop:
+    command: docker-compose down
+  status:
+    command: docker-compose ps
+    alias: ps
+  compose:
+    command: docker-compose
+    alias: c
+  logs:
+    command: docker-compose logs --tail 100 -f
+    alias: l
+  bounce:
+    command: ops stop; ops start
+  bounce-logs:
+    command: ops bounce && ops logs
+    alias: bl
+  docker-compose-exec:
+    command: docker-compose exec
+    alias: dce
+options:
+  exec:
+    load_secrets: true
+

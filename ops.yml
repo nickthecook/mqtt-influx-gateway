@@ -1,0 +1,23 @@
+dependencies:
+  dir:
+    - log
+  docker:
+    - deps/telegraf
+  custom:
+    - bundle
+forwards:
+  tg: deps/telegraf
+actions:
+  server:
+    command: bin/mig
+  watch:
+    command: rerun ops server
+  build:
+    command: gem build *.gemspec
+    alias: b
+  install:
+    command: gem i `ops latest-gem-file`
+    alias: i
+  build-and-install:
+    command: ops build && ops install
+    alias: bi
