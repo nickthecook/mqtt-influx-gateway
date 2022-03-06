@@ -15,7 +15,6 @@ class Mig < MqttService
   private
 
   def statsd
-    puts "protocol: ##{statsd_protocol}"
     @statsd ||= Statsd.new(statsd_host, statsd_port, statsd_protocol)
   end
 
