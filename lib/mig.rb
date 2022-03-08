@@ -6,6 +6,7 @@ require 'statsd-ruby'
 class Mig < MqttService
   def initialize
     super(config_path: self.class.build_config_filename(__dir__))
+    puts "Sending StatsD metrics to #{statsd_protocol}://#{statsd_host}:#{statsd_port}"
   end
 
   def mqtt_receive(topic, msg, _msg_hash)
