@@ -4,11 +4,7 @@ require 'mqtt_service'
 require 'statsd-instrument'
 
 class Mig < MqttService
-  def initialize
-    super(config_path: self.class.build_config_filename(__dir__))
-    puts "Sending StatsD metrics to #{statsd_protocol}://#{statsd_host}:#{statsd_port}"
-  end
-
+  def initialize(config_path: nil)
     super(config_path: config_path)
   end
 
