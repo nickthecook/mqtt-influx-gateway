@@ -6,7 +6,7 @@ services:
     volumes:
       - './telegraf.conf:/etc/telegraf/telegraf.conf:ro'
     ports:
-      - 8125:8125
+      - 8125:8125/udp
     environment:
       - INFLUXDB_URL=${INFLUXDB_URL}
       - INFLUXDB_TOKEN=${INFLUXDB_TOKEN}

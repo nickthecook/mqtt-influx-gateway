@@ -1,33 +1,33 @@
 #!/usr/bin/env ruby
 
 require 'mqtt_service'
-require 'statsd-ruby'
+require 'statsd-instrument'
 
 class Mig < MqttService
-  def initialize
-    super(config_path: self.class.build_config_filename(__dir__))
+  def initialize(config_path: nil)
+    config_path ||= self.class.build_config_filename(__dir__)
+
+    super(config_path: config_path)
   end
 
-  def mqtt_receive(topic, msg, _msg_hash)
-    statsd.increment(metric)
+  def mqtt_receive(topic, msg, msg_hash)
+    msg = if msg_hash.nil?
+      Message.from_string(client_id, topic, msg)
+    else
+      Message.new(client_id, topic, msg_hash)
+    end
+
+    count(msg)
   end
 
   private
 
-  def statsd
-    @statsd ||= Statsd.new(statsd_host, statsd_port, statsd_protocol)
+  def count(msg)
+    StatsD.increment(metric, tags: msg.tags)
   end
 
-  def statsd_protocol
-    (ENV["STATSD_PROTOCOL"] || "udp").to_sym
-  end
-
-  def statsd_port
-    ENV["STATSD_PORT"] || 8125
-  end
-
-  def statsd_host
-    ENV["STATSD_HOST"] || "localhost"
+  def client_id
+    @client_id ||= @config.mqtt.client_id
   end
 
   def metric

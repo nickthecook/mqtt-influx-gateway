@@ -3,6 +3,8 @@ dependencies:
     - log
   docker:
     - deps/telegraf
+  brew:
+    - mosquitto
   custom:
     - bundle
 forwards:
@@ -21,3 +23,16 @@ actions:
   build-and-install:
     command: ops build && ops install
     alias: bi
+  test:
+    command: bundle exec rspec
+    alias: t
+  test-watch:
+    command: bundle exec rerun -xqb rspec
+    alias: tw
+  pub:
+    command: mosquitto_pub -h "$BROKER" -t "$TEST_TOPIC" -m
+options:
+  environment:
+    BROKER: mqtt
+    TEST_TOPIC: /home/ping/mig_test_1
+

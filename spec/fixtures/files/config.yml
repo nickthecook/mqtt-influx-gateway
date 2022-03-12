@@ -1,5 +1,5 @@
 mqtt:
-  client_id: mig_dev_1
+  client_id: mig_test_0
   client:
     omit_retained: true
   host: mqtt
@@ -20,11 +20,8 @@ mqtt:
 mig:
   telegraf:
     host: localhost
-  metric: mqtt.messages
+  metric: test.mqtt.messages
 log:
-  -
-    level: info
-    path: STDOUT
   -
     level: info
     path: log/mig.log
