@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name = 'mqtt-influx-gateway'
-  s.version = '0.0.2'
+  s.version = '0.1.0'
   s.authors = [
     'nickthecook@gmail.com'
   ]
@@ -11,8 +11,10 @@ Gem::Specification.new do |s|
     'bin/*',
     'etc/*',
     'lib/*',
+    'loader.rb',
   ]
   s.executables << 'mig'
   s.add_runtime_dependency 'mqtt_service', '~> 0.5', '>= 0.5.8'
-  s.add_runtime_dependency 'statsd-ruby', '~> 1.5', '>= 1.5.0'
+  s.add_runtime_dependency 'statsd-instrument', '~> 1.5', '>= 1.5.0'
+	s.add_runtime_dependency 'zeitwerk', '~> 2.5', '>= 2.5.3'
 end

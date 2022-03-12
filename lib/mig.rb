@@ -5,6 +5,13 @@ require 'statsd-instrument'
 
 class Mig < MqttService
   def initialize(config_path: nil)
+    config_path ||= self.class.build_config_filename(__dir__)
+
+    puts "Sending #{statsd_implementation} metrics to udp://#{statsd_addr} in mode '#{statsd_mode}'."
+    StatsD.mode = statsd_mode
+    StatsD.server = statsd_addr
+    StatsD.implementation = statsd_implementation
+
     super(config_path: config_path)
   end
 
@@ -30,5 +37,17 @@ class Mig < MqttService
 
   def metric
     @metric ||= @config.mig.metric
+  end
+
+  def statsd_mode
+    :production
+  end
+
+  def statsd_implementation
+    :datadog
+  end
+
+  def statsd_addr
+    @statsd_addr = ENV["STATSD_ADDR"]
   end
 end

@@ -1,5 +1,5 @@
 mqtt:
-  client_id: mig_dev_1
+  client_id: mig_0
   client:
     omit_retained: true
   host: mqtt

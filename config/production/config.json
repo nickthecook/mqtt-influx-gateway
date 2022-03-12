@@ -1,5 +1,5 @@
 {
   "environment": {
-    "STATSD_HOST": "cube"
+    "STATSD_ADDR": "cube"
   }
 }

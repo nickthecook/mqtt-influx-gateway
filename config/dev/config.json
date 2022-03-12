@@ -1,7 +1,6 @@
 {
   "environment": {
     "INFLUXDB_URL": "https://influx-dev.spacingguild.ca",
-    "STATSD_PROTOCOL": "udp",
-    "STATSD_ENV": "production"
+    "STATSD_ADDR": "localhost:8125"
   }
 }
