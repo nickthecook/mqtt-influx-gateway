@@ -22,6 +22,6 @@ class Message
   private
 
   def client_id
-    @body["client_id"] || DEFAULT_CLIENT_ID
+    @body["clientid"] || DEFAULT_CLIENT_ID
   end
 end

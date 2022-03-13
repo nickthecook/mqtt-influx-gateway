@@ -10,16 +10,11 @@ RSpec.describe Mig do
   describe "#mqtt_receive" do
     let(:result) { subject.mqtt_receive(topic, msg, msg_hash) }
     let(:topic) { "/test/topic" }
-    let(:msg_hash) { { "key1" => "value 1", "client_id" => "test_client" } }
+    let(:msg_hash) { { "key1" => "value 1", "clientid" => "test_client" } }
     let(:msg) { msg_hash.to_json }
     let(:expected_tags) { { topic: "/test/topic", client_id: "test_client" } }
 
     before do
-      module StatsD
-        def mode=; end
-        def server=; end
-        def implementation=; end
-      end
       allow(StatsD).to receive(:increment)
     end
 

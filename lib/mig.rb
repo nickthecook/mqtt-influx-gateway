@@ -8,9 +8,6 @@ class Mig < MqttService
     config_path ||= self.class.build_config_filename(__dir__)
 
     puts "Sending #{statsd_implementation} metrics to udp://#{statsd_addr} in mode '#{statsd_mode}'."
-    StatsD.mode = statsd_mode if StatsD.respond_to?(:mode=)
-    StatsD.server = statsd_addr if StatsD.respond_to?(:server=)
-    StatsD.implementation = statsd_implementation if StatsD.respond_to?(:mode=)
 
     super(config_path: config_path)
   end
@@ -36,14 +33,14 @@ class Mig < MqttService
   end
 
   def statsd_mode
-    ENV["STATSD_ENV"] || :production
+    @statsd_mode ||= ENV["STATSD_ENV"] || :development
   end
 
   def statsd_implementation
-    ENV["STATSD_IMPLEMENTATION"] || :datadog
+    @statsd_implementation ||= ENV["STATSD_IMPLEMENTATION"] || :datadog
   end
 
   def statsd_addr
-    @statsd_addr = ENV["STATSD_ADDR"]
+    @statsd_addr = ENV["STATSD_ADDR"] || "localhost:8125"
   end
 end

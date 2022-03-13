@@ -6,7 +6,7 @@ RSpec.describe Message do
   subject { described_class.new(topic, body) }
 
   let(:topic) { "/test/topic" }
-  let(:body) { { "key" => "value", "client_id" => "test_client" }}
+  let(:body) { { "key" => "value", "clientid" => "test_client" }}
 
   describe ".from_string" do
     let(:result) { described_class.from_string(topic, body) }
