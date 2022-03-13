@@ -8,18 +8,18 @@ class Mig < MqttService
     config_path ||= self.class.build_config_filename(__dir__)
 
     puts "Sending #{statsd_implementation} metrics to udp://#{statsd_addr} in mode '#{statsd_mode}'."
-    StatsD.mode = statsd_mode
-    StatsD.server = statsd_addr
-    StatsD.implementation = statsd_implementation
+    StatsD.mode = statsd_mode if StatsD.respond_to?(:mode=)
+    StatsD.server = statsd_addr if StatsD.respond_to?(:server=)
+    StatsD.implementation = statsd_implementation if StatsD.respond_to?(:mode=)
 
     super(config_path: config_path)
   end
 
   def mqtt_receive(topic, msg, msg_hash)
     msg = if msg_hash.nil?
-      Message.from_string(client_id, topic, msg)
+      Message.from_string(topic, msg)
     else
-      Message.new(client_id, topic, msg_hash)
+      Message.new(topic, msg_hash)
     end
 
     count(msg)
@@ -31,20 +31,16 @@ class Mig < MqttService
     StatsD.increment(metric, tags: msg.tags)
   end
 
-  def client_id
-    @client_id ||= @config.mqtt.client_id
-  end
-
   def metric
     @metric ||= @config.mig.metric
   end
 
   def statsd_mode
-    :production
+    ENV["STATSD_ENV"] || :production
   end
 
   def statsd_implementation
-    :datadog
+    ENV["STATSD_IMPLEMENTATION"] || :datadog
   end
 
   def statsd_addr

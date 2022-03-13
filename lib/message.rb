@@ -2,20 +2,26 @@
 
 class Message
   DEFAULT_MSG_KEY = "_msg"
+  DEFAULT_CLIENT_ID = "unknown"
 
-  attr_reader :client_id, :topic, :body
+  attr_reader :topic, :body
 
-  def self.from_string(client_id, topic, body)
-    Message.new(client_id, topic, { DEFAULT_MSG_KEY => body })
+  def self.from_string(topic, body)
+    Message.new(topic, { DEFAULT_MSG_KEY => body })
   end
 
-  def initialize(client_id, topic, body)
-    @client_id = client_id
+  def initialize(topic, body)
     @topic = topic
     @body = body
   end
 
   def tags
     { topic: topic, client_id: client_id }
+  end
+
+  private
+
+  def client_id
+    @body["client_id"] || DEFAULT_CLIENT_ID
   end
 end

@@ -3,10 +3,13 @@
 require 'spec_helper'
 
 RSpec.describe Message do
+  subject { described_class.new(topic, body) }
+
+  let(:topic) { "/test/topic" }
+  let(:body) { { "key" => "value", "client_id" => "test_client" }}
+
   describe ".from_string" do
-    let(:result) { described_class.from_string(client_id, topic, body) }
-    let(:client_id) { "mig_test_0" }
-    let(:topic) { "/test/topic" }
+    let(:result) { described_class.from_string(topic, body) }
     let(:body) { "non-JSON body string" }
 
     it "returns a Message" do
@@ -19,6 +22,18 @@ RSpec.describe Message do
 
     it "has the correct body" do
       expect(result.body).to eq({ "_msg" => "non-JSON body string" })
+    end
+
+    it "has the correct tags" do
+      expect(result.tags).to eq({ topic: "/test/topic", client_id: "unknown" })
+    end
+  end
+
+  describe ".tags" do
+    let(:result) { subject.tags }
+
+    it "returns the correct tags" do
+      expect(result).to eq({ topic: "/test/topic", client_id: "test_client"} )
     end
   end
 end
